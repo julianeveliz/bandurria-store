@@ -9,6 +9,7 @@ const ItemsListContainer = () => {
       price: 499,
       description: "Cuaderno con 80 hojas lisas con motivo de ciervos",
       img: "https://d3ugyf2ht6aenh.cloudfront.net/stores/001/773/911/products/cuaderno-huemul000021-a273ae3fc238d7fe5516508248849387-320-0.jpg",
+      stock: 6
     },
     {
       name: "Búho",
@@ -16,6 +17,7 @@ const ItemsListContainer = () => {
       price: 499,
       description: "Cuaderno de 80 hojas lisas con motivo de búhos",
       img: "https://d3ugyf2ht6aenh.cloudfront.net/stores/001/773/911/products/cuaderno-lechuza00001-21-0c1ea313923b9d7a1616508225052234-320-0.jpg",
+      stock: 3
     },
     {
       name: "Puma",
@@ -23,6 +25,7 @@ const ItemsListContainer = () => {
       price: 499,
       description: "Cuaderno con 80 hojas lisas con motivo de pumas",
       img: "https://d3ugyf2ht6aenh.cloudfront.net/stores/001/773/911/products/puma_00003_baja1-2a844699ef1c576bc716359495019742-320-0.jpg",
+      stock: 9
     },
     {
       name: "Berries",
@@ -30,11 +33,12 @@ const ItemsListContainer = () => {
       price: 499,
       description: "Cuaderno con 80 hojas lisas con motivo de berries",
       img: "https://d3ugyf2ht6aenh.cloudfront.net/stores/001/773/911/products/cuaderno-berries000011-c5be1ab5bb06a0d25216508190474429-320-0.jpg",
+      stock: 2
     },
   ];
 
   return (
-    <div>
+    <div className="select-none">
       <div className="bg-white">
         <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
           <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">

@@ -1,9 +1,11 @@
 import React from "react";
+import ItemCounter from "../ItemCounter/ItemCounter";
 
 const ItemElement = ({ item }) => {
   return (
-    <div key={item.name} className="group relative">
-      <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
+    <div>
+      <div key={item.name} className="group relative">
+      <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden lg:h-80 lg:aspect-none group-hover:opacity-75">
         <img
           src={item.img}
           alt={item.description}
@@ -22,6 +24,8 @@ const ItemElement = ({ item }) => {
         </div>
         <p className="text-sm font-medium text-gray-900">${item.price}</p>
       </div>
+    </div>
+    <ItemCounter stock={item.stock} initial="1" />
     </div>
   );
 };
