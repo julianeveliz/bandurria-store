@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import Spinner from "../Spinner/Spinner";
-import ItemsList from "./ItemList/ItemsList";
-import Message from "../Message/Message";
+import { useState, useEffect, React } from 'react';
+import Spinner from '../../Spinner/Spinner';
+import ItemDetail from "../ItemDetail/ItemDetail";
+import Message from '../../Message/Message';
 
-const ItemsListContainer = () => {
+const ItemDetailsContainer = ({ itemName, showDetails, hideItemDetails }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [items, setItems] = useState(null);
+  const [itemToShow, setItemToShow] = useState(null);
 
   useEffect(() => {
-    const itemsSearch = new Promise((result, rejection) => {
+    const getItem = new Promise((result, rejection) => {
       setTimeout(() => {
         if (true) {
           result([
@@ -60,9 +60,13 @@ const ItemsListContainer = () => {
       }, 2000);
     });
 
-    itemsSearch
-      .then((result) => {
-        setItems(result);
+    getItem
+      .then((results) => {
+        const itemToShow = results.filter(result => {
+          return result.name === itemName;
+        });
+
+        setItemToShow(itemToShow[0]);
       })
       .catch((rejection) => {
         setError(rejection);
@@ -70,15 +74,15 @@ const ItemsListContainer = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  });
 
   return (
     <div>
-      {loading && <Spinner/>}
+      {loading && <Spinner />}
       {error && <Message message={error}/>}
-      {items && <ItemsList items={items} />}
+      {itemToShow && <ItemDetail item={itemToShow} showDetails={showDetails} hideItemDetails={hideItemDetails} />}
     </div>
   );
 };
 
-export default ItemsListContainer;
+export default ItemDetailsContainer;

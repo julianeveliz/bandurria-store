@@ -1,10 +1,21 @@
-import React from "react";
+import { React, useState } from "react";
 import ItemCounter from "../ItemCounter/ItemCounter";
+import ItemDetailsContainer from "../ItemDetailsContainer/ItemDetailsContainer";
 
 const ItemElement = ({ item }) => {
+  const [showDetails, setShowDetails] = useState(false);
+
+  const showItemDetails = () => {
+    setShowDetails(true);
+  };
+
+  const hideItemDetails = () => {
+    setShowDetails(false);
+  };
+
   return (
     <div>
-      <div key={item.name} className="group relative">
+    <div key={item.name} className="group relative" onClick={showItemDetails}>
       <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden lg:h-80 lg:aspect-none group-hover:opacity-75">
         <img
           src={item.img}
@@ -26,6 +37,7 @@ const ItemElement = ({ item }) => {
       </div>
     </div>
     <ItemCounter stock={item.stock} initial="1" />
+    {showDetails && <ItemDetailsContainer itemName={item.name} showDetails={showDetails} hideItemDetails={hideItemDetails}/>}
     </div>
   );
 };
