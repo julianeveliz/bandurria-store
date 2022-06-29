@@ -2,55 +2,64 @@ import React, { useState, useEffect } from "react";
 import Spinner from "../Spinner/Spinner";
 import ItemsList from "./ItemList/ItemsList";
 import Message from "../Message/Message";
+import { useParams } from "react-router-dom";
 
-const ItemsListContainer = () => {
-  const [loading, setLoading] = useState(true);
+const ItemsListContainer = ({ isLanding }) => {
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [items, setItems] = useState(null);
+  const { categoryID } = useParams();
 
   useEffect(() => {
-    const itemsSearch = new Promise((result, rejection) => {
+    const itemsSearch = new Promise((results, rejection) => {
+      setLoading(true);
+
       setTimeout(() => {
         if (true) {
-          result([
+          results([
             {
               name: "Ciervo",
               id: 1,
-              link: "#",
+              category: "cuadernos",
               price: 499,
               description: "Cuaderno de 80 hojas lisas con motivo de ciervos",
-              longDescription: "Cuaderno de 80 hojas lisas con motivo de ciervos, con diferentes ilustraciones. Incluye separadores de regalo.",
               img: "https://d3ugyf2ht6aenh.cloudfront.net/stores/001/773/911/products/cuaderno-huemul000021-a273ae3fc238d7fe5516508248849387-320-0.jpg",
               stock: 6,
             },
             {
               name: "Búho",
               id: 2,
-              link: "#",
+              category: "cuadernos",
               price: 499,
               description: "Cuaderno de 80 hojas lisas con motivo de búhos",
-              longDescription: "Cuaderno de 80 hojas lisas con motivo de búhos, con diferentes ilustraciones. Incluye separadores de regalo.",
               img: "https://d3ugyf2ht6aenh.cloudfront.net/stores/001/773/911/products/cuaderno-lechuza00001-21-0c1ea313923b9d7a1616508225052234-320-0.jpg",
               stock: 3,
             },
             {
               name: "Puma",
               id: 3,
-              link: "#",
+              category: "cuadernos",
               price: 499,
               description: "Cuaderno de 80 hojas lisas con motivo de pumas",
-              longDescription: "Cuaderno de 80 hojas lisas con motivo de pumas, con diferentes ilustraciones. Incluye separadores de regalo.",
               img: "https://d3ugyf2ht6aenh.cloudfront.net/stores/001/773/911/products/puma_00003_baja1-2a844699ef1c576bc716359495019742-320-0.jpg",
               stock: 9,
             },
             {
               name: "Berries",
               id: 4,
-              link: "#",
+              category: "cuadernos",
               price: 499,
               description: "Cuaderno de 80 hojas lisas con motivo de berries",
-              longDescription: "Cuaderno de 80 hojas lisas con motivo de berries, con diferentes ilustraciones. Incluye separadores de regalo.",
               img: "https://d3ugyf2ht6aenh.cloudfront.net/stores/001/773/911/products/cuaderno-berries000011-c5be1ab5bb06a0d25216508190474429-320-0.jpg",
+              stock: 2,
+            },
+            {
+              name: "Pack de 4",
+              id: 5,
+              category: "stickers",
+              price: 200,
+              description: "Pack de 4 stickers con motivos de montaña",
+              img: "https://cdn.shopify.com/s/files/1/0070/3984/4410/products/IMG_0036_1296x.jpg?v=1633388329",
               stock: 2,
             },
           ]);
@@ -61,8 +70,16 @@ const ItemsListContainer = () => {
     });
 
     itemsSearch
-      .then((result) => {
-        setItems(result);
+      .then((results) => {
+        if (categoryID) {
+          const filteredResults = results.filter((result) => {
+            return result.category === categoryID;
+          });
+
+          setItems(filteredResults);
+        } else {
+          setItems(results);
+        }
       })
       .catch((rejection) => {
         setError(rejection);
@@ -70,13 +87,13 @@ const ItemsListContainer = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [categoryID]);
 
   return (
     <div>
       {loading && <Spinner/>}
       {error && <Message message={error}/>}
-      {items && <ItemsList items={items} />}
+      {items && <ItemsList items={items} isLanding={isLanding}/>}
     </div>
   );
 };

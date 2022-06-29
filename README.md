@@ -4,7 +4,7 @@ This project is about building by myself an e-commerce while I'm learning ReactJ
 
 ## Tech
 
-I'm using: ReactJS & Tailwind CSS
+I'm using: ReactJS, Tailwind CSS and Heroicons.
 
 ## Preview
 
