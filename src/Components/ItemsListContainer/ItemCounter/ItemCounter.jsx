@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AddButton from "./AddButton/AddButton";
 
-const ItemCounter = ({ stock, initial }) => {
+const ItemCounter = ({ stock, initial, onAdd }) => {
   const initialQuantity = Number(initial);
   let [quantity, setQuantity] = useState(initialQuantity);
 
@@ -22,7 +22,7 @@ const ItemCounter = ({ stock, initial }) => {
   };
 
   return (
-    <div className="flex-row justify-items-center content-center">
+    <div className="flex-row justify-items-center content-center select-none">
       <div className="flex justify-center">
         <div className="flex justify-center mt-3 shadow p-2 w-3/6">
           <svg
@@ -62,7 +62,8 @@ const ItemCounter = ({ stock, initial }) => {
           </svg>
         </div>
       </div>
-      <AddButton quantity={quantity} />
+      <p className="text-gray-500 text-sm mt-1">Disponibles: {stock}</p>
+      <AddButton quantity={quantity} onAdd={onAdd} />
     </div>
   );
 };

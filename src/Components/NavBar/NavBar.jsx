@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "./Button/Button";
 import CartWidget from "./CartWidget/CartWidget";
 import BandurriaLogo from "./images/logo.png";
 import { Link } from "react-router-dom";
@@ -48,9 +47,6 @@ const NavBar = () => {
                 </Link>
               </li>
             ))}
-            <Link to={'/login'}>
-              <Button message="Iniciar sesión" />
-            </Link>
           </ul>
           <Link to={'/cart'}>
             <CartWidget />

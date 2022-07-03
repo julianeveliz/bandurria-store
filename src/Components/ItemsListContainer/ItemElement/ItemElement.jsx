@@ -29,7 +29,6 @@ const ItemElement = ({ item }) => {
           </div>
         </div>
       </Link>
-      <ItemCounter stock={item.stock} initial="1" />
     </div>
   );
 };

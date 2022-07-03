@@ -17,7 +17,6 @@ function App() {
           <Route path="/item/:itemID" element={<ItemDetailsContainer />}/>
           <Route path="/whereto" element={<UnderConstruction />}/>
           <Route path="/about" element={<UnderConstruction />}/>
-          <Route path="/login" element={<UnderConstruction />}/>
           <Route path="/cart" element={<UnderConstruction />}/>
         </Routes>
 
