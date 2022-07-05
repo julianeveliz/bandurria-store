@@ -11,6 +11,7 @@ const ItemDetailsContainer = () => {
   const [itemToShow, setItemToShow] = useState(null);
   const { itemID } = useParams();
 
+
   useEffect(() => {
     if (itemID) {
       const getItem = new Promise((result, rejection) => {

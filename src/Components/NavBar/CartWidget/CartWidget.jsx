@@ -1,8 +1,15 @@
-import React from "react";
+import { React, useContext } from "react";
+import { DataContext } from "../../CartContext/CartContext";
 
 const CartWidget = () => {
+  const { setShowCart } = useContext(DataContext);
+
+  const showCart = () => {
+    setShowCart(true);
+  };
+
   return (
-    <div>
+    <div onClick={() => showCart()}>
       <span className="text-custgreen cursor-pointer">
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -1,16 +1,13 @@
 // @ts-check
-import { useState } from "react";
+import { useContext } from "react";
 import ItemCounter from "../ItemCounter/ItemCounter";
-import BuyButton from "./BuyButton/BuyButton";
-import { Link } from "react-router-dom";
+import { DataContext } from "../../CartContext/CartContext";
 
 const ItemDetail = ({ item }) => {
-  const [itemCount, setItemCount] = useState(0);
+  const { addItem } = useContext(DataContext);
 
   const onAdd = (count) => {
-    alert(`Se agregaron ${count} ${item.name} al carrito`);
-    setItemCount(count);
-    console.log(itemCount);
+    addItem(item, count);
   };
 
   return (
@@ -23,9 +20,6 @@ const ItemDetail = ({ item }) => {
           </p>
 
           <ItemCounter stock={item.stock} initial={"1"} onAdd={onAdd}/>
-          <Link to={'/cart'}>
-            <BuyButton />
-          </Link>
 
           <dl className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
             {item.features.map((feature) => (

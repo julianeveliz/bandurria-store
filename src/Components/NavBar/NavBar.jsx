@@ -2,9 +2,10 @@ import React from "react";
 import CartWidget from "./CartWidget/CartWidget";
 import BandurriaLogo from "./images/logo.png";
 import { Link } from "react-router-dom";
+import ClearButton from "./ClearButton/ClearButton";
 
 const NavBar = () => {
-  let links = [
+  const links = [
     {
       name: "Inicio",
       route: "/",
@@ -27,6 +28,8 @@ const NavBar = () => {
     },
   ];
 
+
+
   return (
     <>
       <div className="w-full shadow-md sticky top-0 left-0 z-30">
@@ -48,9 +51,8 @@ const NavBar = () => {
               </li>
             ))}
           </ul>
-          <Link to={'/cart'}>
-            <CartWidget />
-          </Link>
+          <ClearButton />
+          <CartWidget showCart={true} />
         </div>
       </div>
     </>

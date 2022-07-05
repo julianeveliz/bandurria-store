@@ -1,5 +1,4 @@
 // @ts-check
-import ItemCounter from "../ItemCounter/ItemCounter";
 import { Link } from "react-router-dom";
 
 const ItemElement = ({ item }) => {
