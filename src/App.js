@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import ItemDetailsContainer from './Components/ItemsListContainer/ItemDetailsContainer/ItemDetailsContainer';
 import ItemsListContainer from './Components/ItemsListContainer/ItemsListContainer';
@@ -10,6 +10,16 @@ import Alert from './Components/Alert/Alert';
 import Shipping from './Components/Checkout/Shipping/Shipping';
 import Payment from './Components/Checkout/Payment/Payment';
 import Confirm from './Components/Checkout/Confirm/Confirm';
+import { initializeApp } from "firebase/app";
+const firebaseConfig = {
+  apiKey: "AIzaSyDDGkPGEMuK4slnjgHrHof-XdeJl0GSOMo",
+  authDomain: "coderhouse-bandurria-store.firebaseapp.com",
+  projectId: "coderhouse-bandurria-store",
+  storageBucket: "coderhouse-bandurria-store.appspot.com",
+  messagingSenderId: "134464911900",
+  appId: "1:134464911900:web:7c3053bc80e09375683dd9"
+};
+initializeApp(firebaseConfig);
 
 function App() {
   return (
