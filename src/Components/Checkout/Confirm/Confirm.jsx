@@ -6,7 +6,13 @@ import { Link } from "react-router-dom";
 
 const Confirm = () => {
   const [loading, setLoading] = useState(true);
-  const { cart, clearCart, total } = useContext(DataContext);
+  const { cart, clearCart, total, setMessage, setCart } =
+    useContext(DataContext);
+
+  const finishProcess = () => {
+    setMessage("La compra ha sido completada");
+    setCart([]);
+  };
 
   setTimeout(() => {
     setLoading(false);
@@ -76,9 +82,9 @@ const Confirm = () => {
           </div>
 
           <div className="flex justify-between text-base font-medium text-gray-900">
-              <p>Total</p>
-              <p>${total}</p>
-            </div>
+            <p>Total</p>
+            <p>${total}</p>
+          </div>
 
           <div className="px-4 py-3 text-right ">
             <Link to={"/"}>
@@ -94,6 +100,7 @@ const Confirm = () => {
               <button
                 type="submit"
                 className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-custgreen hover:bg-custbrown focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custbrown"
+                onClick={() => finishProcess()}
               >
                 Confirmar
               </button>
