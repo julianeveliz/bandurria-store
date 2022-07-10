@@ -71,6 +71,21 @@ const Payment = () => {
                           </select>
                         </div>
 
+                        <div className="col-span-6 sm:col-span-4 break-after-all">
+                          <label
+                            htmlFor="card-number"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Número de la tarjeta
+                          </label>
+                          <input
+                            type="text"
+                            name="card-number"
+                            id="card-number"
+                            className="mt-1 focus:ring-custbrown focus:border-custbrown block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                          />
+                        </div>
+
                         <div className="col-span-6 sm:col-span-3 lg:col-span-2">
                           <label
                             htmlFor="card-expire"
