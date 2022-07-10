@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 
 const CartContainer = () => {
-  const { showCart, setShowCart, cart, removeItem, total, setCartTotal } =
+  const { showCart, setShowCart, cart, removeItem, total, setCartTotal, quantity, setQuantity } =
     useContext(DataContext);
 
   const calculateCartTotal = () => {
@@ -22,8 +22,19 @@ const CartContainer = () => {
     return cart.length === 0;
   };
 
+  const updateQuantity = () => {
+    let totalQuantity = 0;
+
+    for (let item of cart) {
+      totalQuantity += item.quantity;
+    }
+
+    setQuantity(totalQuantity);
+  }
+
   useEffect(() => {
     calculateCartTotal();
+    updateQuantity();
   });
 
   return (
@@ -137,7 +148,9 @@ const CartContainer = () => {
                         <p>Total</p>
                         <p>${total}</p>
                       </div>
-                      <Link to="/checkout">
+                      {
+                        quantity > 0 ?
+                        <Link to="/checkout/shipping">
                         <div
                           className="mt-6"
                           onClick={() => setShowCart(false)}
@@ -146,16 +159,17 @@ const CartContainer = () => {
                             Finalizar compra
                           </span>
                         </div>
-                      </Link>
+                      </Link> : ''
+                      }
                       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>
-                          o{" "}
+                          { quantity > 0 ? `o ` : ''}
                           <button
                             type="button"
                             className="font-medium text-custbrown hover:text-custgreen"
                             onClick={() => setShowCart(false)}
                           >
-                            Continuar comprando
+                            { quantity > 0 ? 'Continuar comprando' : 'Volver'}
                             <span aria-hidden="true"> &rarr;</span>
                           </button>
                         </p>

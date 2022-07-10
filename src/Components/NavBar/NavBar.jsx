@@ -1,8 +1,10 @@
 import React from "react";
 import CartWidget from "./CartWidget/CartWidget";
 import BandurriaLogo from "./images/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import ClearButton from "./ClearButton/ClearButton";
+import { DataContext } from "../CartContext/CartContext";
+import { useContext } from "react";
 
 const NavBar = () => {
   const links = [
@@ -27,12 +29,12 @@ const NavBar = () => {
       route: "/whereto",
     },
   ];
-
-
+  const location = useLocation().pathname;
+  const { quantity } = useContext(DataContext); 
 
   return (
     <>
-      <div className="w-full shadow-md sticky top-0 left-0 z-30">
+      <div className="w-full shadow-md sticky top-0 left-0 z-50">
         <div className="bg-slate-100 md:flex items-center justify-between py-4 md=px-10 px-7">
           <Link to="/">
             <div className="font-bold text-2x1 cursor-pointer flex items-center text-black uppercase">
@@ -51,8 +53,12 @@ const NavBar = () => {
               </li>
             ))}
           </ul>
-          <ClearButton />
-          <CartWidget showCart={true} />
+          {!location.includes("/checkout") && (
+            <>
+              {quantity > 0 && <ClearButton />}
+              <CartWidget showCart={true} />
+            </>
+          )}
         </div>
       </div>
     </>

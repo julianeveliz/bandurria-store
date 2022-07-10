@@ -6,6 +6,8 @@ const CartContext = ({ children }) => {
   const [showCart, setShowCart] = useState(false);
   const [cart, setCart] = useState([]);
   const [total, setCartTotal] = useState(0);
+  const [quantity, setQuantity] = useState(0);
+  const [message, setMessage] = useState('');
 
   const addItem = (item, quantity) => {
     const isStockCorrect = validateOutOfStock(item, quantity);
@@ -40,6 +42,8 @@ const CartContext = ({ children }) => {
           },
         ]);
       }
+
+      setMessage(`Se agregó ${item.name} al carrito`);
     }
   };
 
@@ -57,6 +61,8 @@ const CartContext = ({ children }) => {
 
   const clearCart = () => {
     setCart([]);
+    setQuantity(0);
+    setMessage('Se han eliminado todos los productos del carrito');
   };
 
   const isInCart = (item) =>
@@ -69,9 +75,7 @@ const CartContext = ({ children }) => {
       const itemInCartQty = itemInCart.quantity;
 
       if (itemInCartQty + quantity > item.stock) {
-        alert(
-          `Ya has agregado ${itemInCartQty} ${item.name} al carrito. El stock disponible es ${item.stock}.`
-        );
+        setMessage(`Ya has agregado ${itemInCartQty} ${item.name} al carrito, el stock disponible es ${item.stock}`);
         return false;
       }
     }
@@ -91,6 +95,10 @@ const CartContext = ({ children }) => {
         setShowCart,
         total,
         setCartTotal,
+        quantity,
+        setQuantity,
+        message,
+        setMessage,
       }}
     >
       {children}

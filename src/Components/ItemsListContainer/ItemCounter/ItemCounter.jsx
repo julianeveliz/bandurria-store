@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import AddButton from "./AddButton/AddButton";
+import { DataContext } from "../../CartContext/CartContext";
 
 const ItemCounter = ({ stock, initial, onAdd }) => {
+  const { setMessage } = useContext(DataContext);
   const initialQuantity = Number(initial);
   let [quantity, setQuantity] = useState(initialQuantity);
 
   const subtraction = () => {
     if (quantity - 1 === 0) {
-      alert("El stock no puede ser menor a 0.");
+      setMessage('El stock no puede ser menor a 0');
     } else {
       setQuantity((quantity) => quantity - 1);
     }
@@ -15,7 +17,7 @@ const ItemCounter = ({ stock, initial, onAdd }) => {
 
   const addition = () => {
     if (quantity + 1 > stock) {
-      alert(`El stock disponible es ${stock}. Has alcanzado el máximo.`);
+      setMessage(`El stock disponible es ${stock}, has alcanzado el máximo`);
     } else {
       setQuantity((quantity) => quantity + 1);
     }
@@ -42,7 +44,7 @@ const ItemCounter = ({ stock, initial, onAdd }) => {
             type="text"
             name="quantity"
             id="quantity"
-            className="pr-4 pl-4 sm:text-sm"
+            className="pr-4 pl-4 pt-0 pb-0 sm:text-sm border-none"
             placeholder="1"
           >
             {quantity}

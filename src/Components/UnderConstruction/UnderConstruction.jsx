@@ -1,6 +1,16 @@
 import React from "react";
+import { useState } from "react";
+import Spinner from "../Spinner/Spinner";
 
-const UnderConstruction = ({ message }) => {
+const UnderConstruction = () => {
+  const [loading, setLoading] = useState(true);
+
+  setTimeout(() => {
+    setLoading(false);
+  }, 2000);
+
+  if (loading) return <Spinner />;
+
   const features = [
     {
       name: "Lorem ipsum",

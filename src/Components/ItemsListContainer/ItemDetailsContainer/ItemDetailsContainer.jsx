@@ -1,4 +1,5 @@
 // @ts-check
+import React from "react";
 import { useState, useEffect } from "react";
 import Spinner from "../../Spinner/Spinner";
 import ItemDetail from "../ItemDetail/ItemDetail";
@@ -10,7 +11,6 @@ const ItemDetailsContainer = () => {
   const [error, setError] = useState(false);
   const [itemToShow, setItemToShow] = useState(null);
   const { itemID } = useParams();
-
 
   useEffect(() => {
     if (itemID) {

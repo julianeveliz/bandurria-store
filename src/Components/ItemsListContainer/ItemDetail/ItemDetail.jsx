@@ -1,4 +1,5 @@
 // @ts-check
+import React from "react";
 import { useContext } from "react";
 import ItemCounter from "../ItemCounter/ItemCounter";
 import { DataContext } from "../../CartContext/CartContext";
