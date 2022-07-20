@@ -3,22 +3,100 @@ import { useState, useContext } from "react";
 import Spinner from "../../Spinner/Spinner";
 import { DataContext } from "../../CartContext/CartContext";
 import { Link } from "react-router-dom";
+import { addDoc, collection, getFirestore } from "firebase/firestore";
 
 const Confirm = () => {
+  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { cart, clearCart, total, setMessage, setCart } =
-    useContext(DataContext);
+  const {
+    cart,
+    clearCart,
+    total,
+    setMessage,
+    setCart,
+    shippingInformation,
+    paymentInformation,
+    setOrderInformation,
+    setOrderID,
+    setPaymentInformation,
+    setShippingInformation,
+  } = useContext(DataContext);
 
   const finishProcess = () => {
-    setMessage("La compra ha sido completada");
-    setCart([]);
+    confirmOrder();
   };
 
   setTimeout(() => {
     setLoading(false);
-  }, 2000);
+  }, 1000);
 
   if (loading) return <Spinner />;
+
+  const confirmOrder = () => {
+    const order = {
+      delivery: {
+        address: shippingInformation.streetAddress,
+        city: shippingInformation.city,
+        country: shippingInformation.country,
+        email: shippingInformation.emailAddress,
+        name:
+          shippingInformation.firstName + " " + shippingInformation.lastName,
+        postal: shippingInformation.postalCode,
+        region: shippingInformation.region,
+      },
+      items: cart.map((item) => {
+        return {
+          id: item.id,
+          price: item.basePrice,
+          title: item.name,
+        };
+      }),
+      total,
+      payment: {
+        card: paymentInformation.cardNumber,
+        name: paymentInformation.cardName,
+      },
+    };
+    console.log(order);
+    setOrderInformation(order);
+
+    const orderID = new Promise((result, rejection) => {
+      setLoading(true);
+      const dataBase = getFirestore();
+      const ordersCollection = collection(dataBase, "orders");
+
+      try {
+        addDoc(ordersCollection, order).then(({ id }) => {
+          result(id);
+          setOrderID(id);
+        });
+      } catch (error) {
+        rejection(
+          "Ha ocurrido un error en la comunicación con el servidor. Por favor, intente nuevamente más tarde."
+        );
+      }
+    });
+
+    orderID
+      .then((result) => {
+        console.log(JSON.stringify(result))
+        setOrderID(result);
+        setMessage(
+          `La compra ha sido completada. Su número de orden es ${result}.`
+        );
+        setCart([]);
+      })
+      .catch((rejection) => {
+        setError(rejection);
+      })
+      .finally(() => {
+        setLoading(false);
+        setOrderInformation(null);
+        setOrderID(null);
+        setPaymentInformation(null);
+        setShippingInformation(null);
+      });
+  };
 
   return (
     <>

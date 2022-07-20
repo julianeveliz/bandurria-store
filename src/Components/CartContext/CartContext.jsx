@@ -8,6 +8,10 @@ const CartContext = ({ children }) => {
   const [total, setCartTotal] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const [message, setMessage] = useState('');
+  const [shippingInformation, setShippingInformation] = useState(null);
+  const [paymentInformation, setPaymentInformation] = useState(null);
+  const [orderInformation, setOrderInformation] = useState(null);
+  const [orderID, setOrderID] = useState(null);
 
   const addItem = (item, quantity) => {
     const isStockCorrect = validateOutOfStock(item, quantity);
@@ -99,6 +103,14 @@ const CartContext = ({ children }) => {
         setQuantity,
         message,
         setMessage,
+        shippingInformation,
+        setShippingInformation,
+        paymentInformation,
+        setPaymentInformation,
+        orderInformation,
+        setOrderInformation,
+        orderID,
+        setOrderID,
       }}
     >
       {children}

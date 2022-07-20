@@ -1,16 +1,53 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Spinner from "../../Spinner/Spinner";
 import { Link } from "react-router-dom";
+import { DataContext } from "../../CartContext/CartContext";
+import { useEffect } from "react";
 
 const Shipping = () => {
   const [loading, setLoading] = useState(true);
+  const { shippingInformation, setShippingInformation } =
+    useContext(DataContext);
+
+  useEffect(() => {}, [shippingInformation]);
 
   setTimeout(() => {
     setLoading(false);
-  }, 2000);
+  }, 1000);
 
   if (loading) return <Spinner />;
+
+  const handleChange = (e) => {
+    const val = e.target.value ? e.target.value : null;
+    setShippingInformation({
+      ...shippingInformation,
+      [e.target.id]: val,
+    });
+  };
+
+  const areFieldsCompleted = () => {
+    if (shippingInformation) {
+      console.log(shippingInformation)
+      const shipInfoLength = Object.keys(shippingInformation).length;
+
+      if (shipInfoLength === 0 || shipInfoLength !== 8) {
+        return false;
+      }
+
+      let areAllCompleted = true;
+      Object.values(shippingInformation).forEach(value => {
+        console.log('iteration: ' + value)
+        if (value === undefined || value === null || value === "") {
+          areAllCompleted = false;
+        }
+      });
+
+      return areAllCompleted;
+    }
+
+    return false;
+  };
 
   return (
     <>
@@ -49,7 +86,9 @@ const Shipping = () => {
                           <input
                             type="text"
                             name="first-name"
-                            id="first-name"
+                            onChange={handleChange}
+                            id="firstName"
+                            required
                             autoComplete="given-name"
                             className="mt-1 focus:ring-custbrown focus:border-custbrown block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                           />
@@ -65,7 +104,8 @@ const Shipping = () => {
                           <input
                             type="text"
                             name="last-name"
-                            id="last-name"
+                            id="lastName"
+                            onChange={handleChange}
                             autoComplete="family-name"
                             className="mt-1 focus:ring-custbrown focus:border-custbrown block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                           />
@@ -81,7 +121,8 @@ const Shipping = () => {
                           <input
                             type="text"
                             name="email-address"
-                            id="email-address"
+                            id="emailAddress"
+                            onChange={handleChange}
                             autoComplete="email"
                             className="mt-1 focus:ring-custbrown focus:border-custbrown block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                           />
@@ -97,9 +138,12 @@ const Shipping = () => {
                           <select
                             id="country"
                             name="country"
+                            defaultValue={null}
+                            onChange={handleChange}
                             autoComplete="country-name"
                             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-custbrown focus:border-custbrown sm:text-sm"
                           >
+                            <option value={''}></option>
                             <option>Argentina</option>
                             <option>Chile</option>
                             <option>Uruguay</option>
@@ -116,7 +160,8 @@ const Shipping = () => {
                           <input
                             type="text"
                             name="street-address"
-                            id="street-address"
+                            id="streetAddress"
+                            onChange={handleChange}
                             autoComplete="street-address"
                             className="mt-1 focus:ring-custbrown focus:border-custbrown block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                           />
@@ -133,6 +178,7 @@ const Shipping = () => {
                             type="text"
                             name="city"
                             id="city"
+                            onChange={handleChange}
                             autoComplete="address-level2"
                             className="mt-1 focus:ring-custbrown focus:border-custbrown block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                           />
@@ -149,6 +195,7 @@ const Shipping = () => {
                             type="text"
                             name="region"
                             id="region"
+                            onChange={handleChange}
                             autoComplete="address-level1"
                             className="mt-1 focus:ring-custbrown focus:border-custbrown block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                           />
@@ -164,23 +211,32 @@ const Shipping = () => {
                           <input
                             type="text"
                             name="postal-code"
-                            id="postal-code"
+                            id="postalCode"
+                            onChange={handleChange}
+                            required
                             autoComplete="postal-code"
                             className="mt-1 focus:ring-custbrown focus:border-custbrown block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                           />
                         </div>
                       </div>
                     </div>
-                    <Link to={'/checkout/payment'}>
-                      <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                        <button
-                          type="submit"
-                          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-custgreen hover:bg-custbrown focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custbrown"
-                        >
-                          Continuar
-                        </button>
-                      </div>
-                    </Link>
+                    {areFieldsCompleted() && (
+                      <Link to={"/checkout/payment"}>
+                        <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                          <button
+                            type="submit"
+                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-custgreen hover:bg-custbrown focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custbrown"
+                          >
+                            Continuar
+                          </button>
+                        </div>
+                      </Link>
+                    )}
+                    {!areFieldsCompleted() && (
+                      <p className="block text-sm font-medium text-right p-2 text-custbrown">
+                        Complete todos los campos para continuar
+                      </p>
+                    )}
                   </div>
                 </form>
               </div>

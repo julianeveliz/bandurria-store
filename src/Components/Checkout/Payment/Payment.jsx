@@ -1,16 +1,48 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Spinner from "../../Spinner/Spinner";
 import { Link } from "react-router-dom";
+import { DataContext } from "../../CartContext/CartContext";
 
 const Payment = () => {
   const [loading, setLoading] = useState(true);
+  const { paymentInformation, setPaymentInformation } = useContext(DataContext);
 
   setTimeout(() => {
     setLoading(false);
-  }, 2000);
+  }, 1000);
 
   if (loading) return <Spinner />;
+
+  const handleChange = (e) => {
+    const val = e.target.value ? e.target.value : null;
+    
+    setPaymentInformation({
+      ...paymentInformation,
+      [e.target.id]: val,
+    });
+  };
+
+  const areFieldsCompleted = () => {
+    if (paymentInformation) {
+      const shipInfoLength = Object.keys(paymentInformation).length;
+
+      if (shipInfoLength === 0 || shipInfoLength !== 5) {
+        return false;
+      }
+
+      let areAllCompleted = true;
+      Object.values(paymentInformation).forEach(value => {
+        if (value === undefined || value === null || value === "") {
+          areAllCompleted = false;
+        }
+      });
+
+      return areAllCompleted;
+    }
+
+    return false;
+  };
 
   return (
     <>
@@ -48,7 +80,8 @@ const Payment = () => {
                           <input
                             type="text"
                             name="card-name"
-                            id="card-name"
+                            id="cardName"
+                            onChange={handleChange}
                             autoComplete="given-name"
                             className="mt-1 focus:ring-custbrown focus:border-custbrown block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                           />
@@ -62,10 +95,13 @@ const Payment = () => {
                             Tipo de tarjeta
                           </label>
                           <select
-                            id="card-type"
+                            id="cardType"
                             name="card-type"
+                            onChange={handleChange}
+                            defaultValue={null}
                             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-custbrown focus:border-custbrown sm:text-sm"
                           >
+                            <option value={''}></option>
                             <option>Crédito</option>
                             <option>Débito</option>
                           </select>
@@ -81,7 +117,8 @@ const Payment = () => {
                           <input
                             type="text"
                             name="card-number"
-                            id="card-number"
+                            onChange={handleChange}
+                            id="cardNumber"
                             className="mt-1 focus:ring-custbrown focus:border-custbrown block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                           />
                         </div>
@@ -96,7 +133,8 @@ const Payment = () => {
                           <input
                             type="date"
                             name="card-expire"
-                            id="card-expire"
+                            onChange={handleChange}
+                            id="cardExpire"
                             className="mt-1 focus:ring-custbrown focus:border-custbrown block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                           />
                         </div>
@@ -111,22 +149,30 @@ const Payment = () => {
                           <input
                             type="text"
                             name="cvc-card"
-                            id="cvc-card"
+                            id="cvcCard"
+                            onChange={handleChange}
                             className="mt-1 focus:ring-custbrown focus:border-custbrown block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                           />
                         </div>
                       </div>
                     </div>
-                    <Link to={'/checkout/confirm'}>
-                      <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                        <button
-                          type="submit"
-                          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-custgreen hover:bg-custbrown focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custbrown"
-                        >
-                          Continuar
-                        </button>
-                      </div>
-                    </Link>
+                    {areFieldsCompleted() && 
+                      <Link to={"/checkout/confirm"}>
+                        <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                          <button
+                            type="submit"
+                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-custgreen hover:bg-custbrown focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custbrown"
+                          >
+                            Continuar
+                          </button>
+                        </div>
+                      </Link>
+                    }
+                    {!areFieldsCompleted() && 
+                      <p className="block text-sm font-medium text-right p-2 text-custbrown">
+                        Complete todos los campos para continuar
+                      </p>
+                    }
                   </div>
                 </form>
               </div>
