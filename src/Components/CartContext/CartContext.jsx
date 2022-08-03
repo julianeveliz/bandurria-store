@@ -12,6 +12,7 @@ const CartContext = ({ children }) => {
   const [paymentInformation, setPaymentInformation] = useState(null);
   const [orderInformation, setOrderInformation] = useState(null);
   const [orderID, setOrderID] = useState(null);
+  const [lastOrderID, setLastOrderID] = useState(null);
 
   const addItem = (item, quantity) => {
     const isStockCorrect = validateOutOfStock(item, quantity);
@@ -111,6 +112,8 @@ const CartContext = ({ children }) => {
         setOrderInformation,
         orderID,
         setOrderID,
+        lastOrderID,
+        setLastOrderID,
       }}
     >
       {children}

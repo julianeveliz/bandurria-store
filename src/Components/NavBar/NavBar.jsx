@@ -19,15 +19,7 @@ const NavBar = () => {
     {
       name: "Stickers",
       route: "/category/stickers",
-    },
-    {
-      name: "Nosotros",
-      route: "/about",
-    },
-    {
-      name: "¿Dónde comprar?",
-      route: "/whereto",
-    },
+    }
   ];
   const location = useLocation().pathname;
   const { quantity } = useContext(DataContext); 
@@ -54,11 +46,11 @@ const NavBar = () => {
             ))}
           </ul>
           {!location.includes("/checkout") && (
-            <>
-              {quantity > 0 && <ClearButton />}
-              <CartWidget showCart={true} />
-            </>
-          )}
+              <>
+                {quantity > 0 && <ClearButton />}
+                <CartWidget showCart={true} />
+              </>
+            )}
         </div>
       </div>
     </>

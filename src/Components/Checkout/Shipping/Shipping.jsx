@@ -20,24 +20,33 @@ const Shipping = () => {
 
   const handleChange = (e) => {
     const val = e.target.value ? e.target.value : null;
+    
     setShippingInformation({
       ...shippingInformation,
       [e.target.id]: val,
     });
   };
 
+  const areEmailsEquals = () => {
+    if (shippingInformation) {
+      if (shippingInformation['emailAddress'] && shippingInformation['re-emailAddress']) {
+        return shippingInformation['emailAddress'] === shippingInformation['re-emailAddress'];
+      }
+  
+      return false;
+    }
+  };
+
   const areFieldsCompleted = () => {
     if (shippingInformation) {
-      console.log(shippingInformation)
       const shipInfoLength = Object.keys(shippingInformation).length;
 
-      if (shipInfoLength === 0 || shipInfoLength !== 8) {
+      if (shipInfoLength === 0 || shipInfoLength !== 9) {
         return false;
       }
 
       let areAllCompleted = true;
       Object.values(shippingInformation).forEach(value => {
-        console.log('iteration: ' + value)
         if (value === undefined || value === null || value === "") {
           areAllCompleted = false;
         }
@@ -124,6 +133,22 @@ const Shipping = () => {
                             id="emailAddress"
                             onChange={handleChange}
                             autoComplete="email"
+                            className="mt-1 focus:ring-custbrown focus:border-custbrown block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                          />
+                        </div>
+
+                        <div className="col-span-6 sm:col-span-4">
+                          <label
+                            htmlFor="re-email-address"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Reingrese su correo electrónico
+                          </label>
+                          <input
+                            type="text"
+                            name="re-email-address"
+                            id="re-emailAddress"
+                            onChange={handleChange}
                             className="mt-1 focus:ring-custbrown focus:border-custbrown block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                           />
                         </div>
@@ -220,7 +245,7 @@ const Shipping = () => {
                         </div>
                       </div>
                     </div>
-                    {areFieldsCompleted() && (
+                    {(areFieldsCompleted() && areEmailsEquals()) && (
                       <Link to={"/checkout/payment"}>
                         <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
                           <button
@@ -235,6 +260,11 @@ const Shipping = () => {
                     {!areFieldsCompleted() && (
                       <p className="block text-sm font-medium text-right p-2 text-custbrown">
                         Complete todos los campos para continuar
+                      </p>
+                    )}
+                    {(!areEmailsEquals() && areFieldsCompleted()) && (
+                      <p className="block text-sm font-medium text-right p-2 text-custbrown">
+                        Las direcciones de correo electrónico deben coincidir
                       </p>
                     )}
                   </div>

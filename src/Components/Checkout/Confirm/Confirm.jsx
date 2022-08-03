@@ -20,6 +20,7 @@ const Confirm = () => {
     setOrderID,
     setPaymentInformation,
     setShippingInformation,
+    setLastOrderID,
   } = useContext(DataContext);
 
   const finishProcess = () => {
@@ -56,8 +57,9 @@ const Confirm = () => {
         card: paymentInformation.cardNumber,
         name: paymentInformation.cardName,
       },
+      date: new Date(),
     };
-    console.log(order);
+    
     setOrderInformation(order);
 
     const orderID = new Promise((result, rejection) => {
@@ -71,6 +73,7 @@ const Confirm = () => {
           setOrderID(id);
         });
       } catch (error) {
+        setLastOrderID(null);
         rejection(
           "Ha ocurrido un error en la comunicación con el servidor. Por favor, intente nuevamente más tarde."
         );
@@ -79,10 +82,10 @@ const Confirm = () => {
 
     orderID
       .then((result) => {
-        console.log(JSON.stringify(result))
         setOrderID(result);
+        setLastOrderID(result);
         setMessage(
-          `La compra ha sido completada. Su número de orden es ${result}.`
+          `La compra se realizó exitosamente`
         );
         setCart([]);
       })
